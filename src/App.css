@@ -5,33 +5,45 @@
 }
 
 #app {
+     background-color: #f2f2f2;
      width: 100%;
      display: flex;
      flex-direction: column;
      justify-content: center;
      align-items: center;
 }
+header {
+     height: 80px;
+     width: 90%;
+     display: flex;
+     justify-content: space-between;
+     align-items: center;
+     padding: 10px 20px;
+}
 
 .search {
-     width: 100%;
      display: flex;
      justify-content: center;
+     align-items: center;
      gap: 10px;
 }
+
 .search button {
-     height: 35px;
      width: 80px;
+     height: 30px;
 }
 
 input {
      text-align: center;
-     width: 60%;
-     margin-bottom: 30px;
-     line-height: 30px;
+     width: 30vw;
+     height: 30px;
 }
 
+.total {
+     width: 90%;
+     text-align: start;
+     padding: 20px;
+}
 h2 {
-     width: 100%;
-     text-align: center;
-     padding: 30px;
+     color: #333;
 }

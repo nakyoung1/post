@@ -1,59 +1,45 @@
-import { useEffect, useState } from "react";
 import styled from "styled-components";
 import moment from "moment";
 
 const CardContainer = styled.div`
+     width: 90%;
      display: flex;
      flex-wrap: wrap;
 `;
 
 const CardSection = styled.section`
-     border: 1px solid black;
      display: flex;
      flex-direction: column;
      justify-content: center;
      align-items: center;
      text-align: center;
-     gap: 15px;
+     gap: 20px;
      width: 45%;
      height: auto;
      margin: 10px auto;
      padding: 20px;
+     background-color: white;
      cursor: pointer;
+
+     &:hover {
+          box-shadow: 0 3px 6px rgba(110, 110, 110, 0.2);
+          transform: translateY(-7px);
+          transition: transform 0.3s ease, box-shadow 0.3s ease;
+     }
 `;
 
-function Card({ contents, handleOpen, num }) {
+function Card({ contents, handleOpen }) {
      return (
           <CardContainer>
-               {contents.length === undefined ? (
-                    <CardSection
-                         key={contents.id}
-                         onClick={() => handleOpen(contents)}
-                    >
-                         <p>No.{contents.id}</p>
-                         <h3>{contents.title}</h3>
-                         <p>{contents.body}</p>
-                         <p>user id : {contents.userId}</p>
+               {contents.map((item) => (
+                    <CardSection key={item.id} onClick={() => handleOpen(item)}>
+                         <p>No.{item.id}</p>
+                         <h3>{item.title}</h3>
+                         <p>{item.body}</p>
+                         <p>user id : {item.userId}</p>
                          <p>date : {moment().format("YYYY/MM/DD HH:mm:ss")}</p>
                     </CardSection>
-               ) : (
-                    contents.map((item) => (
-                         <CardSection
-                              key={item.id}
-                              onClick={() => handleOpen(item)}
-                         >
-                              <p>No.{item.id}</p>
-                              <h3>{item.title}</h3>
-                              <p>{item.body}</p>
-                              <p>user id : {item.userId}</p>
-                              <p>
-                                   date :{" "}
-                                   {moment().format("YYYY/MM/DD HH:mm:ss")}
-                              </p>
-                         </CardSection>
-                    ))
-               )}
-               {}
+               ))}
           </CardContainer>
      );
 }

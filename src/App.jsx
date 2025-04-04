@@ -1,9 +1,9 @@
 import { useState, useRef, useEffect } from "react";
-import styled from "styled-components";
 
 import Card from "./Card";
 import "./App.css";
 import Dialog from "./Dialog";
+import Search from "./Search";
 
 function App() {
      const modalRef = useRef(null);
@@ -12,17 +12,18 @@ function App() {
 
      const [contents, setContents] = useState([]);
      const [selectedItem, setSelectedItem] = useState(null);
-     const [num, setNum] = useState("3");
+     const [num, setNum] = useState("");
 
      useEffect(() => {
           const getInfo = async () => {
+               let url = `https://jsonplaceholder.typicode.com/posts`;
+               if (num) {
+                    url += `?userId=${num}`;
+               }
                try {
-                    const response = await fetch(
-                         `https://jsonplaceholder.typicode.com/posts?userId=${num}`
-                    );
+                    const response = await fetch(url);
                     const data = await response.json();
                     setContents(data);
-                    console.log(contents);
                } catch (error) {
                     console.log("데이터를 불러오지 못했습니다");
                }
@@ -34,25 +35,26 @@ function App() {
           setSelectedItem(item);
           modalRef.current.open();
      };
-     const handleClick = () => {};
+     const handleClick = () => {
+          setNum(inputRef.current.value);
+          inputRef.current.value = "";
+     };
 
      return (
           <div id="app">
-               <h2>게시판</h2>
-               <div className="search">
-                    <input
-                         placeholder="찾고싶은 글 번호를 검색하세요."
-                         ref={inputRef}
-                    />
-                    <button onClick={handleClick}>검색하기</button>
-               </div>
+               <header>
+                    <h2>POSTIN</h2>
+                    <Search ref={inputRef} handleClick={handleClick} />
+               </header>
 
+               <p className="total">Total : {contents.length}</p>
                <Card
                     contents={contents}
                     ref={cardRef}
                     handleOpen={handleOpen}
                     num={num}
                />
+
                <Dialog selectedItem={selectedItem} ref={modalRef} />
           </div>
      );

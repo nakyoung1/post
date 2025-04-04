@@ -9,12 +9,14 @@ import styled from "styled-components";
 
 const Modal = styled.dialog`
      cursor: pointer;
+
      position: fixed;
-     top: 30%;
-     left: 30%;
+     top: 50%;
+     left: 50%;
+     transform: translate(-50%, -50%);
      text-align: center;
-     width: 300px;
-     padding: 10px;
+     width: 400px;
+     padding: 30px;
      border: none;
      &::backdrop {
           background-color: rgba(106, 106, 106, 0.7);
@@ -37,7 +39,7 @@ const Modal = styled.dialog`
      }
 `;
 
-const Dialog = forwardRef(({ selectedItem }, ref) => {
+const Dialog = forwardRef((props, ref) => {
      const dialogRef = useRef(null);
      const [selectedData, setSelectedData] = useState("");
 
@@ -57,7 +59,7 @@ const Dialog = forwardRef(({ selectedItem }, ref) => {
           const getInfo = async () => {
                try {
                     const response = await fetch(
-                         `https://jsonplaceholder.typicode.com/posts?userId=${selectedItem.id}`
+                         `https://jsonplaceholder.typicode.com/posts/${props.selectedItem.id}`
                     );
                     const data = await response.json();
                     setSelectedData(data);
@@ -68,13 +70,17 @@ const Dialog = forwardRef(({ selectedItem }, ref) => {
           getInfo();
      }, []);
 
-     return (
-          <Modal ref={dialogRef} onClick={handleClose}>
-               <h2>{selectedData?.title}</h2>
-               <p>{selectedData?.body}</p>
-               <button onClick={handleClose}>닫기</button>
-          </Modal>
-     );
+     if (props === null) return;
+     else {
+          return (
+               <Modal ref={dialogRef} onClick={handleClose}>
+                    <p>No.{props.selectedItem?.id}</p>
+                    <h2>{props.selectedItem?.title}</h2>
+                    <p>{props.selectedItem?.body}</p>
+                    <button onClick={handleClose}>닫기</button>
+               </Modal>
+          );
+     }
 });
 
 export default Dialog;
